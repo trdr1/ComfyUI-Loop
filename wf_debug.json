@@ -1,0 +1,152 @@
+{
+  "last_node_id": 6,
+  "last_link_id": 6,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "VHS_LoadVideo",
+      "pos": [100, 300],
+      "size": [260, 600],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {"name": "meta_batch", "shape": 7, "type": "VHS_BatchManager", "link": null},
+        {"name": "vae", "shape": 7, "type": "VAE", "link": null}
+      ],
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [1]},
+        {"name": "frame_count", "type": "INT", "links": null},
+        {"name": "audio", "type": "AUDIO", "links": null},
+        {"name": "video_info", "type": "VHS_VIDEOINFO", "links": [2]}
+      ],
+      "properties": {"Node name for S&R": "VHS_LoadVideo"},
+      "widgets_values": {
+        "video": "",
+        "force_rate": 0,
+        "custom_width": 0,
+        "custom_height": 0,
+        "frame_load_cap": 0,
+        "skip_first_frames": 0,
+        "select_every_nth": 1,
+        "format": "AnimateDiff",
+        "choose video to upload": "image"
+      }
+    },
+    {
+      "id": 2,
+      "type": "VHS_VideoInfo",
+      "pos": [390, 480],
+      "size": [220, 200],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {"name": "video_info", "type": "VHS_VIDEOINFO", "link": 2}
+      ],
+      "outputs": [
+        {"name": "source_fps", "type": "FLOAT", "links": null},
+        {"name": "source_frame_count", "type": "INT", "links": null},
+        {"name": "source_duration", "type": "FLOAT", "links": null},
+        {"name": "source_width", "type": "INT", "links": null},
+        {"name": "source_height", "type": "INT", "links": null},
+        {"name": "loaded_fps", "type": "FLOAT", "links": [3]},
+        {"name": "loaded_frame_count", "type": "INT", "links": null},
+        {"name": "loaded_duration", "type": "FLOAT", "links": null}
+      ],
+      "properties": {"Node name for S&R": "VHS_VideoInfo"},
+      "widgets_values": {}
+    },
+    {
+      "id": 3,
+      "type": "AL_EnhanceDebugger",
+      "pos": [640, 250],
+      "size": [320, 360],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {"name": "images", "type": "IMAGE", "link": 1},
+        {"name": "fps", "type": "FLOAT", "link": 3}
+      ],
+      "outputs": [
+        {"name": "input_frame", "type": "IMAGE", "links": [4]},
+        {"name": "rife_frame", "type": "IMAGE", "links": [5]},
+        {"name": "cugan_frame", "type": "IMAGE", "links": [6]},
+        {"name": "out_fps", "type": "FLOAT", "links": null},
+        {"name": "debug_report", "type": "STRING", "links": null}
+      ],
+      "properties": {"Node name for S&R": "AL_EnhanceDebugger"},
+      "widgets_values": [
+        120.0,
+        2,
+        "conservative",
+        256,
+        "1.0",
+        true
+      ],
+      "widgets_values_named": {
+        "target_fps": 120.0,
+        "cugan_scale": 2,
+        "denoise_level": "conservative",
+        "cugan_tile": 256,
+        "rife_scale": "1.0",
+        "fp16": true
+      }
+    },
+    {
+      "id": 4,
+      "type": "PreviewImage",
+      "pos": [1000, 50],
+      "size": [280, 280],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {"name": "images", "type": "IMAGE", "link": 4}
+      ],
+      "outputs": [],
+      "properties": {"Node name for S&R": "PreviewImage"}
+    },
+    {
+      "id": 5,
+      "type": "PreviewImage",
+      "pos": [1000, 360],
+      "size": [280, 280],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {"name": "images", "type": "IMAGE", "link": 5}
+      ],
+      "outputs": [],
+      "properties": {"Node name for S&R": "PreviewImage"}
+    },
+    {
+      "id": 6,
+      "type": "PreviewImage",
+      "pos": [1000, 670],
+      "size": [280, 280],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {"name": "images", "type": "IMAGE", "link": 6}
+      ],
+      "outputs": [],
+      "properties": {"Node name for S&R": "PreviewImage"}
+    }
+  ],
+  "links": [
+    [1, 1, 0, 3, 0, "IMAGE"],
+    [2, 1, 3, 2, 0, "VHS_VIDEOINFO"],
+    [3, 2, 5, 3, 1, "FLOAT"],
+    [4, 3, 0, 4, 0, "IMAGE"],
+    [5, 3, 1, 5, 0, "IMAGE"],
+    [6, 3, 2, 6, 0, "IMAGE"]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}
